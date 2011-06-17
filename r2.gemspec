@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email       = ["matt@twitter.com"]
   s.homepage    = ""
   s.summary     = %q{CSS flipper for right-to-left processing}
-  s.description = %q{A Ruby port of https://github.com/ded/r2}
+  s.description = %q{CSS flipper for right-to-left processing. A Ruby port of https://github.com/ded/r2}
 
   s.rubyforge_project = "r2"
 
