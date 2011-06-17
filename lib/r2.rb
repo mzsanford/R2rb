@@ -1,9 +1,18 @@
+# Change the directionality of a block of CSS code from right-to-left to left-to-right. This includes not only
+# altering the <tt>direction</tt> attribute but also altering the 4-argument version of things like <tt>padding</tt>
+# to correctly reflect the change. CSS is also minified, in part to make the processing easier.
+#
+# Author::    Matt Sanford  (mailto:matt@twitter.com)
+# Copyright:: Copyright (c) 2011 Twitter, Inc.
+# License::   Licensed under the Apache License, Version 2.0
 module R2
 
+  # Short cut method for providing a one-time CSS change
   def self.r2(css)
     ::R2::Swapper.new.r2(css)
   end
 
+  # Reuable class for CSS alterations
   class Swapper
     PROPERTY_MAP = {
       'margin-left' => 'margin-right',
@@ -35,8 +44,7 @@ module R2
       'direction'  => lambda {|obj,val| obj.direction_swap(val) }
     }
 
-
-
+    # Given a String of CSS perform the full directionality change
     def r2(original_css)
       css = minimize(original_css)
 
@@ -57,6 +65,7 @@ module R2
       return result
     end
 
+    # Minimize the provided CSS by removing comments, and extra specs
     def minimize(css)
       return '' unless css
 
@@ -66,6 +75,7 @@ module R2
          gsub(/\s+/, ' ')                 # replace multiple spaces with single spaces
     end
 
+    # Given a single CSS declaration rule (e.g. <tt>padding-left: 4px</tt>) return the opposing rule (so, <tt>padding-right:4px;</tt> in this example)
     def declartion_swap(decl)
       return '' unless decl
 
@@ -81,6 +91,7 @@ module R2
       return property + ':' + value + ';'
     end
 
+    # Given a value of <tt>rtl</tt> or <tt>ltr</tt> return the opposing value. All other arguments are ignored and returned unmolested.
     def direction_swap(val)
       if val == "rtl"
         "ltr"
@@ -91,6 +102,7 @@ module R2
       end
     end
 
+    # Given a value of <tt>right</tt> or <tt>left</tt> return the opposing value. All other arguments are ignored and returned unmolested.
     def side_swap(val)
       if val == "right"
         "left"
@@ -101,6 +113,9 @@ module R2
       end
     end
 
+    # Given a 4-argument CSS declaration value (like that of <tt>padding</tt> or <tt>margin</tt>) return the opposing
+    # value. The opposing value swaps the left and right but not the top or bottom. Any unrecognized argument is returned
+    # unmolested (for example, 2-argument values)
     def quad_swap(val)
       # 1px 2px 3px 4px => 1px 4px 3px 2px
       points = val.to_s.split(/\s+/)
