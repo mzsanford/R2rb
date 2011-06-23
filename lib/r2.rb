@@ -29,8 +29,18 @@ module R2
 
       'border-radius-bottomleft' => 'border-radius-bottomright',
       'border-radius-bottomright' => 'border-radius-bottomleft',
+      'border-radius-topleft' => 'border-radius-topright',
+      'border-radius-topright' => 'border-radius-topleft',
+
       '-moz-border-radius-bottomright' => '-moz-border-radius-bottomleft',
       '-moz-border-radius-bottomleft' => '-moz-border-radius-bottomright',
+      '-moz-border-radius-topright' => '-moz-border-radius-topleft',
+      '-moz-border-radius-topleft' => '-moz-border-radius-topright',
+
+      '-webkit-border-top-right-radius' => '-webkit-border-top-left-radius',
+      '-webkit-border-top-left-radius' => '-webkit-border-top-right-radius',
+      '-webkit-border-bottom-right-radius' => '-webkit-border-bottom-left-radius',
+      '-webkit-border-bottom-left-radius' => '-webkit-border-bottom-right-radius',
 
       'left' => 'right',
       'right' => 'left'
@@ -41,6 +51,9 @@ module R2
       'margin'     => lambda {|obj,val| obj.quad_swap(val) },
       'text-align' => lambda {|obj,val| obj.side_swap(val) },
       'float'      => lambda {|obj,val| obj.side_swap(val) },
+      'box-shadow' => lambda {|obj,val| obj.quad_swap(val) },
+      '-webkit-box-shadow' => lambda {|obj,val| obj.quad_swap(val) },
+      '-moz-box-shadow' => lambda {|obj,val| obj.quad_swap(val) },
       'direction'  => lambda {|obj,val| obj.direction_swap(val) }
     }
 

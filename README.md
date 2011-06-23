@@ -1,23 +1,32 @@
-== R2
+## R2
 
 Library for swapping CSS values for right-to-left display. A direct Ruby port of the Javascript/Node project at https://github.com/ded/R2.
 
-== Installation ==
+## Installation
 
     $ gem install r2
 
-== Usage ==
+## Usage
 
 You can use the handy static method for flipping any CSS string via:
 
     > R2.r2("/* Comment */\nbody { direction: rtl; }")
     #=> "body{direction:ltr;}"
 
-== Reporting bugs ==
+## Reporting bugs
 
 Report bugs in the github project at http://github.com/mzsanford/r2rb
 
-== Copyright and License ==
+## Change Log
+
+ * v0.0.3 - Feature release
+   * [FEATURE] Added -moz and -webkit border support
+   * [FEATURE] Added box-shadow (+moz and webkit) support
+   * [DOC] Added change log
+ * v0.0.2 - Documentation updated
+ * v0.0.1 - Initial release
+
+## Copyright and License
 
      Copyright 2011 Twitter, Inc.
 
