@@ -61,20 +61,19 @@ module R2
     def r2(original_css)
       css = minimize(original_css)
 
-      result = css.gsub(/([^\{]+\{[^\}]+\})+?/) do |rule|
-        # break rule into selector|declaration parts
-        parts = rule.match(/([^\{]+)\{([^\}]+)/)
-        selector = parts[1]
-        declarations = parts[2]
-
-        rule_str = selector + '{'
-        declarations.split(/;(?!base64)/).each do |decl|
-          rule_str << declartion_swap(decl)
-        end
-        rule_str << "}"
+      result = css.gsub(/([^\{\}]+[^\}]|[\}])+?/) do |rule|
+				if rule.match(/[\{\}]/)
+					#it is a selector with "{" or a closing "}", insert as it is 
+					rule_str = rule
+				else
+					#It is a decleration	
+					rule_str = ""
+					rule.split(/;(?!base64)/).each do |decl|
+						rule_str << declartion_swap(decl)
+					end
+				end
         rule_str
       end
-
       return result
     end
 
