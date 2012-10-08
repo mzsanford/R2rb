@@ -54,7 +54,8 @@ module R2
       'box-shadow' => lambda {|obj,val| obj.quad_swap(val) },
       '-webkit-box-shadow' => lambda {|obj,val| obj.quad_swap(val) },
       '-moz-box-shadow' => lambda {|obj,val| obj.quad_swap(val) },
-      'direction'  => lambda {|obj,val| obj.direction_swap(val) }
+      'direction'  => lambda {|obj,val| obj.direction_swap(val) },
+      'clear' => lambda {|obj,val| obj.side_swap(val) }
     }
 
     # Given a String of CSS perform the full directionality change
