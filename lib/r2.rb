@@ -49,6 +49,9 @@ module R2
     VALUE_PROCS = {
       'padding'    => lambda {|obj,val| obj.quad_swap(val) },
       'margin'     => lambda {|obj,val| obj.quad_swap(val) },
+      'border-radius' => lambda {|obj,val| obj.border_radius_swap(val) },
+      '-moz-border-radius' => lambda {|obj,val| obj.border_radius_swap(val) },
+      '-webkit-border-radius' => lambda {|obj,val| obj.border_radius_swap(val) },
       'text-align' => lambda {|obj,val| obj.side_swap(val) },
       'float'      => lambda {|obj,val| obj.side_swap(val) },
       'box-shadow' => lambda {|obj,val| obj.quad_swap(val) },
@@ -136,6 +139,27 @@ module R2
 
       if points && points.length == 4
         [points[0], points[3], points[2], points[1]].join(' ')
+      else
+        val
+      end
+    end
+    # Border radius uses top-left, top-right, bottom-left, bottom-right, so all values need to be swapped. Additionally,
+    # two and three value border-radius declarations need to be swapped as well. Vertical radius, specified with a /,
+    # should be left alone.
+    def border_radius_swap(val)
+      # 1px 2px 3px 4px => 1px 4px 3px 2px
+      points = val.to_s.split(/\s+/)
+
+      if points && points.length > 1 && !val.to_s.include?('/')
+        case points.length
+        when 4
+          [points[1], points[0], points[3], points[2]].join(' ')
+        when 3
+          [points[1], points[0], points[1], points[2]].join(' ')
+        when 2
+          [points[1], points[0]].join(' ')
+        else val
+        end
       else
         val
       end
