@@ -49,6 +49,9 @@ module R2
     VALUE_PROCS = {
       'padding'    => lambda {|obj,val| obj.quad_swap(val) },
       'margin'     => lambda {|obj,val| obj.quad_swap(val) },
+      'border-radius' => lambda {|obj,val| obj.quad_swap(val) },
+      '-moz-border-radius' => lambda {|obj,val| obj.quad_swap(val) },
+      '-webkit-border-radius' => lambda {|obj,val| obj.quad_swap(val) },
       'text-align' => lambda {|obj,val| obj.side_swap(val) },
       'float'      => lambda {|obj,val| obj.side_swap(val) },
       'box-shadow' => lambda {|obj,val| obj.quad_swap(val) },
