@@ -97,4 +97,18 @@ describe R2 do
       @r2.quad_swap("1px 2px").should == "1px 2px"
     end
   end
+
+  context "border_radius_swap" do
+    it "should swap a valid quad value" do
+      @r2.border_radius_swap("1px 2px 3px 4px").should == "2px 1px 4px 3px"
+    end
+
+    it "should skip a triple value" do
+      @r2.border_radius_swap("1px 2px 3px").should == "2px 1px 2px 3px"
+    end
+
+    it "should skip a pair value" do
+      @r2.border_radius_swap("1px 2px").should == "2px 1px"
+    end
+  end
 end
