@@ -58,7 +58,8 @@ module R2
       '-webkit-box-shadow' => lambda {|obj,val| obj.quad_swap(val) },
       '-moz-box-shadow' => lambda {|obj,val| obj.quad_swap(val) },
       'direction'  => lambda {|obj,val| obj.direction_swap(val) },
-      'clear' => lambda {|obj,val| obj.side_swap(val) }
+      'clear' => lambda {|obj,val| obj.side_swap(val) },
+      'background-position' => lambda {|obj,val| obj.background_position_swap(val) }
     }
 
     # Given a String of CSS perform the full directionality change
@@ -163,6 +164,31 @@ module R2
       else
         val
       end
+    end
+
+    # Given a background-position such as <tt>left center</tt> or <tt>0% 50%</tt> return the opposing value e.g <tt>right center</tt> or <tt>100% 50%</tt>
+    def background_position_swap(val)
+
+      if val =~ /left/
+        val.gsub!('left', 'right')
+      elsif val =~ /right/
+        val.gsub!('right', 'left')
+      end
+
+      points = val.strip.split(/\s+/)
+
+      # If first point is a percentage-value
+      if match = points[0].match(/(\d+)%/)
+        inv = 100 - match[1].to_i # 30% => 70% (100 - x)
+        val = ["#{inv}%", points[1]].compact.join(' ')
+      end
+
+      # If first point is a unit-value
+      if match = points[0].match(/^(\d+[a-z]{2,3})/)
+        val = ["right", match[1], points[1] || "center"].compact.join(' ')
+      end
+
+      val
     end
   end
 
