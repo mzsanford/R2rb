@@ -73,7 +73,7 @@ module R2
 
         rule_str = selector + '{'
         declarations.split(/;(?!base64)/).each do |decl|
-          rule_str << declartion_swap(decl)
+          rule_str << declaration_swap(decl)
         end
         rule_str << "}"
         rule_str
@@ -93,7 +93,7 @@ module R2
     end
 
     # Given a single CSS declaration rule (e.g. <tt>padding-left: 4px</tt>) return the opposing rule (so, <tt>padding-right:4px;</tt> in this example)
-    def declartion_swap(decl)
+    def declaration_swap(decl)
       return '' unless decl
 
       matched = decl.match(/([^:]+):(.+)$/)
