@@ -111,4 +111,68 @@ describe R2 do
       @r2.border_radius_swap("1px 2px").should == "2px 1px"
     end
   end
+
+  context "background_position_swap" do
+
+    context "with a single value" do
+      it "should ignore a named-vertical" do
+        @r2.background_position_swap('top').should == 'top'
+      end
+
+      it "should swap a named-horizontal 'left'" do
+        @r2.background_position_swap('left').should == 'right'
+      end
+
+      it "should swap a named-horizontal 'right'" do
+        @r2.background_position_swap('right').should == 'left'
+      end
+
+      it "should invert a percentage" do
+        @r2.background_position_swap('25%').should == '75%'
+      end
+
+      it "should convert a unit value" do
+        @r2.background_position_swap('25px').should == 'right 25px center'
+      end
+    end
+
+    context "with a pair of values" do
+      # Note that a pair of keywords can be reordered while a combination of
+      # keyword and length or percentage cannot. So ‘center left’ is valid
+      # while ‘50% left’ is not.
+      # See: http://dev.w3.org/csswg/css3-background/#background-position
+
+      it "should swap named-horizontal and ignore named-vertical" do
+        @r2.background_position_swap('right bottom').should == 'left bottom'
+      end
+
+      it "should swap named-horizontal and ignore unit-vertical" do
+        @r2.background_position_swap('left 100px').should == 'right 100px'
+      end
+
+      it "should convert unit-horizontal" do
+        @r2.background_position_swap('100px center').should == 'right 100px center'
+      end
+
+      it "should swap named-horizontal and ignore percentage-vertical" do
+        @r2.background_position_swap('left 0%').should == 'right 0%'
+      end
+
+      it "should invert first percentage-horizontal value in a pair" do
+        @r2.background_position_swap('25% 100%').should == '75% 100%'
+      end
+    end
+
+    context "with a triplet of values" do
+      it "should swap named-horizontal" do
+        @r2.background_position_swap('left 20px center').should == 'right 20px center'
+      end
+    end
+
+    context "with a quad of values" do
+      it "should swap named-horizontal value" do
+        @r2.background_position_swap('bottom 10px left 20px').should == 'bottom 10px right 20px'
+      end
+    end
+  end
 end
