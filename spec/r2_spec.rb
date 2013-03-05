@@ -12,25 +12,25 @@ describe R2 do
     end
   end
 
-  context "declartion_swap" do
+  context "declaration_swap" do
     it "should handle nil" do
-      @r2.declartion_swap(nil).should == ''
+      @r2.declaration_swap(nil).should == ''
     end
 
     it "should handle invalid declarations" do
-      @r2.declartion_swap("not a decl").should == ''
+      @r2.declaration_swap("not a decl").should == ''
     end
 
     it "should swap a swappable parameter" do
-      @r2.declartion_swap("padding-right:4px").should == 'padding-left:4px;'
+      @r2.declaration_swap("padding-right:4px").should == 'padding-left:4px;'
     end
 
     it "should swap a swappable quad parameter" do
-      @r2.declartion_swap("padding:1px 2px 3px 4px").should == 'padding:1px 4px 3px 2px;'
+      @r2.declaration_swap("padding:1px 2px 3px 4px").should == 'padding:1px 4px 3px 2px;'
     end
 
     it "should ignore other parameters" do
-      @r2.declartion_swap("foo:bar").should == 'foo:bar;'
+      @r2.declaration_swap("foo:bar").should == 'foo:bar;'
     end
   end
 
