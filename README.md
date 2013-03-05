@@ -19,6 +19,10 @@ Report bugs in the github project at http://github.com/mzsanford/r2rb
 
 ## Change Log
 
+ * v0.1.0 – @fractious[https://github.com/fractious] updates
+   * [CLEANUP] Added rspec dev dependency
+   * [CLEANUP] Fixed typo in internal method name
+   * [FEATURE] Added support for background-position
  * v0.0.3 - Feature release
    * [FEATURE] Added -moz and -webkit border support
    * [FEATURE] Added box-shadow (+moz and webkit) support
