@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.rubyforge_project = "r2"
 
   s.add_development_dependency 'rake'
-  s.add_development_dependency 'rspec', '~> 1.3.0'
+  s.add_development_dependency 'rspec', '~> 2.13.0'
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
