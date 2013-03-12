@@ -1,14 +1,9 @@
 require 'bundler'
 require 'rake'
-require 'spec/rake/spectask'
+require 'rspec/core/rake_task'
 
 Bundler::GemHelper.install_tasks
 
-task :default => [:test]
+RSpec::Core::RakeTask.new(:spec)
 
-desc "Run all examples"
-Spec::Rake::SpecTask.new('test') do |t|
-  t.spec_files = FileList['spec/*_spec.rb']
-end
-
-
+task :default => :spec
