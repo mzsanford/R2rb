@@ -54,9 +54,6 @@ module R2
       '-webkit-border-radius' => lambda {|obj,val| obj.border_radius_swap(val) },
       'text-align' => lambda {|obj,val| obj.side_swap(val) },
       'float'      => lambda {|obj,val| obj.side_swap(val) },
-      'box-shadow' => lambda {|obj,val| obj.quad_swap(val) },
-      '-webkit-box-shadow' => lambda {|obj,val| obj.quad_swap(val) },
-      '-moz-box-shadow' => lambda {|obj,val| obj.quad_swap(val) },
       'direction'  => lambda {|obj,val| obj.direction_swap(val) },
       'clear' => lambda {|obj,val| obj.side_swap(val) },
       'background-position' => lambda {|obj,val| obj.background_position_swap(val) }
