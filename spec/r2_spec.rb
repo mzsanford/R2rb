@@ -111,6 +111,32 @@ describe R2::Swapper do
     end
   end
 
+  describe "#shadow_swap" do
+    it "should swap a 2 arg value" do
+      r2.shadow_swap("1px 2px").should == "-1px 2px"
+    end
+
+    it "should swap a 2 arg value from rtl to ltr" do
+      r2.shadow_swap("-1px 2px").should == "1px 2px"
+    end
+
+    it "should swap a 3 arg value" do
+      r2.shadow_swap("1px 2px #000").should == "-1px 2px #000"
+    end
+
+    it "should swap a 4 arg value" do
+      r2.shadow_swap("1px 2px 3px 4px").should == "-1px 2px 3px 4px"
+    end
+
+    it "should swap a 5 arg value" do
+      r2.shadow_swap("1px 2px 3px 4px #000").should == "-1px 2px 3px 4px #000"
+    end
+
+    it "should swap a 6 arg value" do
+      r2.shadow_swap("1px 2px 3px 4px #000 inset").should == "-1px 2px 3px 4px #000 inset"
+    end
+  end
+
   describe "#border_radius_swap" do
     it "should swap a valid quad value" do
       r2.border_radius_swap("1px 2px 3px 4px").should == "2px 1px 4px 3px"

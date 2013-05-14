@@ -54,6 +54,9 @@ module R2
       '-webkit-border-radius' => lambda {|obj,val| obj.border_radius_swap(val) },
       'text-align' => lambda {|obj,val| obj.side_swap(val) },
       'float'      => lambda {|obj,val| obj.side_swap(val) },
+      'box-shadow' => lambda {|obj,val| obj.shadow_swap(val) },
+      '-webkit-box-shadow' => lambda {|obj,val| obj.shadow_swap(val) },
+      '-moz-box-shadow' => lambda {|obj,val| obj.shadow_swap(val) },
       'direction'  => lambda {|obj,val| obj.direction_swap(val) },
       'clear' => lambda {|obj,val| obj.side_swap(val) },
       'background-position' => lambda {|obj,val| obj.background_position_swap(val) }
@@ -141,6 +144,20 @@ module R2
         val
       end
     end
+
+    # Given the 2-6 variable declaration for box-shadow convert the direction. Conversion requires inverting the
+    # horizontal measure only.
+    def shadow_swap(val)
+      args = val.to_s.split(/\s+/)
+
+      matched = args && args[0].match(/^([-+]?\d+)(\w*)$/)
+      if matched
+        return (["#{(-1 * matched[1].to_i)}#{matched[2]}"] + Array(args.values_at(1..5))).compact.join(' ')
+      else
+        return val
+      end
+    end
+
     # Border radius uses top-left, top-right, bottom-left, bottom-right, so all values need to be swapped. Additionally,
     # two and three value border-radius declarations need to be swapped as well. Vertical radius, specified with a /,
     # should be left alone.
