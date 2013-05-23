@@ -13,6 +13,10 @@ You can use the handy static method for flipping any CSS string via:
     > R2.r2("/* Comment */\nbody { direction: rtl; }")
     #=> "body{direction:ltr;}"
 
+## Build Status
+
+[![Build Status](https://travis-ci.org/mzsanford/R2rb.png)](https://travis-ci.org/mzsanford/R2rb)
+
 ## Reporting bugs
 
 Report bugs in the github project at http://github.com/mzsanford/r2rb
