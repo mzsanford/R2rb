@@ -89,7 +89,8 @@ module R2
       css.gsub(/\/\*[\s\S]+?\*\//, '').   # comments
          gsub(/[\n\r]/, '').              # line breaks and carriage returns
          gsub(/\s*([:;,\{\}])\s*/, '\1'). # space between selectors, declarations, properties and values
-         gsub(/\s+/, ' ')                 # replace multiple spaces with single spaces
+         gsub(/\s+/, ' ').                # replace multiple spaces with single spaces
+         gsub(/(\A\s+|\s+\z)/, '')        # leading or trailing spaces
     end
 
     # Given a single CSS declaration rule (e.g. <tt>padding-left: 4px</tt>) return the opposing rule (so, <tt>padding-right:4px;</tt> in this example)

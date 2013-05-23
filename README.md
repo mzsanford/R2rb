@@ -19,6 +19,9 @@ Report bugs in the github project at http://github.com/mzsanford/r2rb
 
 ## Change Log
 
+ * v0.2.0 – CSS3 additions
+   * [FEATURE] Support `@media` queries by ignoring them (fix from [@haimlankry](https://github.com/haimlankry))
+   * [FEATURE] Correctly flip `box-shadow` values (bug report from [@aviaron](https://github.com/aviaron))
  * v0.1.0 – [@fractious](https://github.com/fractious) updates
    * [CLEANUP] Added rspec dev dependency
    * [CLEANUP] Fixed typo in internal method name

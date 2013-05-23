@@ -23,6 +23,22 @@ describe R2::Swapper do
     it "processes CSS" do
       r2.r2("/* comment */\nbody { direction: rtl; }\nimg { padding: 4px;}").should == "body{direction:ltr;}img{padding:4px;}"
     end
+
+    it "handles media queries" do
+      css = <<-EOS
+        @media all and (max-width: 222px) {
+          p {
+            padding-left: 2px;
+          }
+        }
+      EOS
+
+      expected_result = "@media all and (max-width:222px){p{padding-right:2px;}}"
+
+      flipped_css = r2.r2(css)
+
+      flipped_css.should == expected_result
+    end
   end
 
   describe "#declaration_swap" do
