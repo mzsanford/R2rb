@@ -68,13 +68,13 @@ module R2
 
       result = css.gsub(/([^\{\}]+[^\}]|[\}])+?/) do |rule|
         if rule.match(/[\{\}]/)
-          #it is a selector with "{" or a closing "}", insert as it is 
+          #it is a selector with "{" or a closing "}", insert as it is
           rule_str = rule
         else
-          #It is a decleration  
+          #It is a decleration
           rule_str = ""
           rule.split(/;(?!base64)/).each do |decl|
-            rule_str << declartion_swap(decl)
+            rule_str << declaration_swap(decl)
           end
         end
         rule_str
