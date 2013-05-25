@@ -155,7 +155,7 @@ module R2
 
       matched = args && args[0].match(/^([-+]?\d+)(\w*)$/)
       if matched
-        return (["#{(-1 * matched[1].to_i)}#{matched[2]}"] + Array(args.values_at(1..5))).compact.join(' ')
+        return (["#{(-1 * matched[1].to_i)}#{matched[2]}"] + args[1..5]).compact.join(' ')
       else
         return val
       end
