@@ -150,9 +150,12 @@ module R2
     def shadow_swap(val)
       args = val.to_s.split(/\s+/)
 
+      #move 'inset' to the end
+      args.push(args.shift) if args && args[0] == "inset"
+
       matched = args && args[0].match(/^([-+]?\d+)(\w*)$/)
       if matched
-        return (["#{(-1 * matched[1].to_i)}#{matched[2]}"] + Array(args.values_at(1..5))).compact.join(' ')
+        return (["#{(-1 * matched[1].to_i)}#{matched[2]}"] + args[1..5]).compact.join(' ')
       else
         return val
       end

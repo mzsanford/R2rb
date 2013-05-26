@@ -151,6 +151,11 @@ describe R2::Swapper do
     it "should swap a 6 arg value" do
       r2.shadow_swap("1px 2px 3px 4px #000 inset").should == "-1px 2px 3px 4px #000 inset"
     end
+
+    it "should swap value starting with inset" do
+      r2.shadow_swap("inset 1px 2px").should == "-1px 2px inset"
+    end
+
   end
 
   describe "#border_radius_swap" do
