@@ -5,6 +5,9 @@
 # Author::    Matt Sanford  (mailto:matt@twitter.com)
 # Copyright:: Copyright (c) 2011 Twitter, Inc.
 # License::   Licensed under the Apache License, Version 2.0
+
+require_relative 'r2/shadow_flipper'
+
 module R2
 
   # Short cut method for providing a one-time CSS change
@@ -148,18 +151,9 @@ module R2
     # Given the 2-6 variable declaration for box-shadow convert the direction. Conversion requires inverting the
     # horizontal measure only.
     def shadow_swap(val)
-      args = val.to_s.split(/\s+/)
-
-      #move 'inset' to the end
-      args.push(args.shift) if args && args[0] == "inset"
-
-      matched = args && args[0].match(/^([-+]?\d+)(\w*)$/)
-      if matched
-        return (["#{(-1 * matched[1].to_i)}#{matched[2]}"] + args[1..5]).compact.join(' ')
-      else
-        return val
-      end
+      ShadowFlipper::flip(val)
     end
+
 
     # Border radius uses top-left, top-right, bottom-left, bottom-right, so all values need to be swapped. Additionally,
     # two and three value border-radius declarations need to be swapped as well. Vertical radius, specified with a /,
