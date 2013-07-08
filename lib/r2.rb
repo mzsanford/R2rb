@@ -6,7 +6,7 @@
 # Copyright:: Copyright (c) 2011 Twitter, Inc.
 # License::   Licensed under the Apache License, Version 2.0
 
-require_relative 'r2/shadow_flipper'
+require 'r2/shadow_flipper'
 
 module R2
 
