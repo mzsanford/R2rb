@@ -156,6 +156,14 @@ describe R2::Swapper do
       r2.shadow_swap("inset 1px 2px").should == "-1px 2px inset"
     end
 
+    it "should swap multiple values" do
+      r2.shadow_swap("inset 1px 2px, 1px 2px #000").should == "-1px 2px inset, -1px 2px #000"
+    end
+
+    it "should swap multiple values (with rgba)" do
+      r2.shadow_swap("inset 1px 2px rgba(0,0,0,0.2), 1px 2px #000").should == "-1px 2px rgba(0,0,0,0.2) inset, -1px 2px #000"
+    end
+
   end
 
   describe "#border_radius_swap" do
