@@ -23,6 +23,9 @@ Report bugs in the github project at http://github.com/mzsanford/r2rb
 
 ## Change Log
 
+ * v0.2.2 – CSS3 `box-shadow` fix continues
+   * [BUG] Correctly handle `box-shadow` declarations that define multiple shadows (fix from [@wazeHQ](https://github.com/wazeHQ))
+   * [FEATURE] Make the `r2` command line tool convert CSS provided via `stdin` or a file (previously it was a no-op)
  * v0.2.1 – CSS3 `box-shadow` fix
    * [BUG] Correctly handle `box-shadow` declarations starting with `inset` (fix from [@wazeHQ](https://github.com/wazeHQ))
  * v0.2.0 – CSS3 additions

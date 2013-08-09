@@ -1,3 +1,11 @@
 #!/usr/bin/env ruby
 
 require "r2"
+
+if ARGV[0]
+  css = File.read(ARGV[0])
+else
+  css = $stdin.read
+end
+
+puts R2.r2(css)
