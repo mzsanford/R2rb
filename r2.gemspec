@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Matt Sanford"]
   s.email       = ["matt@twitter.com"]
-  s.homepage    = ""
+  s.homepage    = "https://github.com/mzsanford/R2rb"
   s.summary     = %q{CSS flipper for right-to-left processing}
   s.description = %q{CSS flipper for right-to-left processing. A Ruby port of https://github.com/ded/r2}
 
