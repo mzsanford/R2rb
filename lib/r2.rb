@@ -70,14 +70,32 @@ module R2
       css = minimize(original_css)
 
       result = css.gsub(/([^\{\}]+[^\}]|[\}])+?/) do |rule|
+        # +rule+ can represent a selector (".foo {"), the closing "}" for a selector, or the complete
+        # body of a a selector
         if rule.match(/[\{\}]/)
-          #it is a selector with "{" or a closing "}", insert as it is
+          # it is a selector with "{" or a closing "}", insert as it is. This is
+          # things like ".foo {" and its matching "}"
           rule_str = rule
         else
-          #It is a decleration
+          # It is a declaration body, like "padding-left:4px;margin-left:5px;"
           rule_str = ""
-          rule.split(/;(?!base64)/).each do |decl|
-            rule_str << declaration_swap(decl)
+          # Split up the individual rules in the body and process each swap. To handle the
+          # possible ";" in the url() definitions, like
+          # url("data;base64") and url("data:image/svg+xml;charset=...")
+          # a state machine is constructed.
+          url_rule = nil
+          rule.split(/;/).each do |part|
+            if part.match(/url\(/)
+              url_rule = part
+            elsif url_rule != nil
+              url_rule << ";" + part
+              if part.match(/\)$/)
+                rule_str << declaration_swap(url_rule)
+                url_rule = nil
+              end
+            else
+              rule_str << declaration_swap(part)
+            end
           end
         end
         rule_str
