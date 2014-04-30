@@ -23,6 +23,9 @@ Report bugs in the github project at http://github.com/mzsanford/r2rb
 
 ## Change Log
 
+ * v0.2.3 - Handle `url()` properties better
+   * [BUG] - Handle `url()` with embedded semi-colons (like escaped SVG)
+   * [CHANGE] - Remove Travis tests for Ruby 1.8 because Travis adds a `celluloid` dependency that does not work before Ruby 1.9.3
  * v0.2.2 – CSS3 `box-shadow` fix continues
    * [BUG] Correctly handle `box-shadow` declarations that define multiple shadows (fix from [@wazeHQ](https://github.com/wazeHQ))
    * [FEATURE] Make the `r2` command line tool convert CSS provided via `stdin` or a file (previously it was a no-op)
