@@ -23,6 +23,8 @@ Report bugs in the github project at http://github.com/mzsanford/r2rb
 
 ## Change Log
 
+ * v0.2.4 - Handle `url()` properties better
+   * [BUG] - Handle `url()` without embedded semi-colons and with trailing parameters
  * v0.2.3 - Handle `url()` properties better
    * [BUG] - Handle `url()` with embedded semi-colons (like escaped SVG)
    * [CHANGE] - Remove Travis tests for Ruby 1.8 because Travis adds a `celluloid` dependency that does not work before Ruby 1.9.3
