@@ -85,11 +85,12 @@ module R2
           # a state machine is constructed.
           url_rule = nil
           rule.split(/;/).each do |part|
-            if part.match(/url\(/)
+            # A rule body that contains a "url(" and a ";" before the closing ")"
+            if part.match(/url\([^\)]+$/)
               url_rule = part
             elsif url_rule != nil
               url_rule << ";" + part
-              if part.match(/\)$/)
+              if part.match(/\)( |$)/)
                 rule_str << declaration_swap(url_rule)
                 url_rule = nil
               end
