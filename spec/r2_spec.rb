@@ -55,15 +55,19 @@ describe R2::Swapper do
       flipped_css.should == expected_result
     end
 
-    # background: image-url("spree/frontend/cart.png") no-repeat left center;
+    # background: #000 url("spree/frontend/cart.png") no-repeat left center;
     it "handles background with position declarations" do
       css = <<-EOS
-        .background-class {
-          background: image-url("spree/frontend/cart.png") no-repeat left center;
+        .bg1 {
+          background: #000 url("spree/frontend/cart.png") no-repeat left center;
+        }
+        .bg2 {
+          background: #000 url("spree/frontend/cart.png") no-repeat 1% 50%;
         }
       EOS
 
-      expected_result = '.background-class{background:image-url("spree/frontend/cart.png") no-repeat right center;}'
+      expected_result  = '.bg1{background:#000 url("spree/frontend/cart.png") no-repeat right center;}'
+      expected_result += '.bg2{background:#000 url("spree/frontend/cart.png") no-repeat 99% 50%;}';
 
       flipped_css = r2.r2(css)
 

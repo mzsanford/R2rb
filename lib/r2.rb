@@ -62,7 +62,8 @@ module R2
       '-moz-box-shadow' => lambda {|obj,val| obj.shadow_swap(val) },
       'direction'  => lambda {|obj,val| obj.direction_swap(val) },
       'clear' => lambda {|obj,val| obj.side_swap(val) },
-      'background-position' => lambda {|obj,val| obj.background_position_swap(val) }
+      'background-position' => lambda {|obj,val| obj.background_position_swap(val) },
+      'background' => lambda {|obj,val| obj.background_swap(val) },
     }
 
     # Given a String of CSS perform the full directionality change
@@ -171,6 +172,32 @@ module R2
     # horizontal measure only.
     def shadow_swap(val)
       ShadowFlipper::flip(val)
+    end
+
+    # Given the short-hand background: definition attempt to convert the direction.
+    def background_swap(val)
+      parts = val.split(/ /)
+
+      checked = []
+      skip = false
+      parts.each_index do |i|
+        p = parts[i]
+        n = parts[i+1]
+
+        if skip
+          skip = false
+          next
+        end
+
+        if p.match(/left|right|\d+%/)
+          checked << background_position_swap("#{p} #{n}")
+          skip = true
+        else
+          checked << side_swap(p)
+        end
+      end
+
+      checked.flatten.join(' ')
     end
 
 
