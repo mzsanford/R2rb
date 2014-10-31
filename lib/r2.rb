@@ -15,8 +15,10 @@ module R2
     ::R2::Swapper.new.r2(css)
   end
 
-  # Reuable class for CSS alterations
+  # Reusable class for CSS alterations
   class Swapper
+    attr_accessor :strict
+
     PROPERTY_MAP = {
       'margin-left' => 'margin-right',
       'margin-right' => 'margin-left',
@@ -66,6 +68,10 @@ module R2
       'background' => lambda {|obj,val| obj.background_swap(val) },
     }
 
+    def initialize
+      @strict = false
+    end
+
     # Given a String of CSS perform the full directionality change
     def r2(original_css)
       css = minimize(original_css)
@@ -102,6 +108,7 @@ module R2
         end
         rule_str
       end
+
       return result
     end
 
@@ -176,6 +183,14 @@ module R2
 
     # Given the short-hand background: definition attempt to convert the direction.
     def background_swap(val)
+      # We can't handle things like -moz-linear-gradient so don't mangle the CSS
+      # trying to.
+      if val =~ /\A\s*[a-zA-Z0-9_-]+\(.*\)\z/
+        raise(ArgumentError, "strict mode prohibits ignoring CSS function") if @strict
+
+        return val
+      end
+
       parts = val.split(/ /)
 
       checked = []

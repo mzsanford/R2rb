@@ -74,8 +74,6 @@ describe R2::Swapper do
       flipped_css.should == expected_result
     end
 
-
-
     it "handles SVG background-image declarations" do
       escaped_xml = "%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22iso-8859-1%22%3F%3E%3C!DOCTYPE%20svg%20PUBLIC%20%22-%2F%2FW3C%2F%2FDTD%20SVG%201.1%2F%2FEN%22%20%22http%3A%2F%2Fwww.w3.org%2FGraphics%2FSVG%2F1.1%2FDTD%2Fsvg11.dtd%22%3E%3Csvg%20version%3D%221.1%22%20id%3D%22Layer_1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%20%20width%3D%2214px%22%20height%3D%2214px%22%20viewBox%3D%220%200%2014%2014%22%20style%3D%22enable-background%3Anew%200%200%2014%2014%3B%22%20xml%3Aspace%3D%22preserve%22%3E%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M9%2C5v3l5-4L9%2C0v3c0%2C0-5%2C0-5%2C7C6%2C5%2C9%2C5%2C9%2C5z%20M11%2C12H2V5h1l2-2H0v11h13V7l-2%2C2V12z%22%2F%3E%3C%2Fsvg%3E"
       css = <<-EOS
@@ -91,6 +89,27 @@ describe R2::Swapper do
       flipped_css = r2.r2(css)
 
       flipped_css.should == expected_result
+    end
+
+    it "skips prefix gradient backgrounds by default" do
+      css = <<-EOS
+      .content-1 {background: -moz-linear-gradient(left, #5b832d 20%, #fffbf7 100%); }
+      .content-2 {background: -moz-linear-gradient(left, #5b832d 20%, #fffbf7 100% ); }
+      EOS
+
+      expected_result  = ".content-1{background:-moz-linear-gradient(left,#5b832d 20%,#fffbf7 100%);}"
+      expected_result += ".content-2{background:-moz-linear-gradient(left,#5b832d 20%,#fffbf7 100% );}"
+
+      flipped_css = r2.r2(css)
+
+      flipped_css.should == expected_result
+    end
+
+    it "skips fails on gradient backgrounds in strict mode" do
+      css = ".content-1 {background: -moz-linear-gradient(left, #5b832d 20%, #fffbf7 100%); }"
+
+      r2.strict = true
+      expect { r2.r2(css) }.to raise_error
     end
   end
 
