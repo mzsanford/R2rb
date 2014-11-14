@@ -7,6 +7,7 @@
 # License::   Licensed under the Apache License, Version 2.0
 
 require 'r2/shadow_flipper'
+require 'r2/function_flipper'
 
 module R2
 
@@ -179,6 +180,10 @@ module R2
     # horizontal measure only.
     def shadow_swap(val)
       ShadowFlipper::flip(val)
+    end
+
+    def function_swap(val)
+      FunctionFlipper::flip(val)
     end
 
     # Given the short-hand background: definition attempt to convert the direction.

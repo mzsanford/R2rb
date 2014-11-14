@@ -238,6 +238,24 @@ describe R2::Swapper do
 
   end
 
+  describe "#function_swap" do
+    it "should skip unknown functions" do
+      r2.function_swap("foo(left, right)").should == "foo(left, right)"
+    end
+
+    it "should handle linear-gradient with side" do
+      r2.function_swap("linear-gradient(left, #5b832d 20%, #fffbf7 100%)").should == "linear-gradient(right, #5b832d 20%, #fffbf7 100%)"
+      r2.function_swap("-moz-linear-gradient(left, #5b832d 20%, #fffbf7 100%)").should == "-moz-linear-gradient(right, #5b832d 20%, #fffbf7 100%)"
+    end
+
+    it "should handle gradient" do
+      input = "-webkit-gradient(linear, left top, left bottom, color-stop(0%,#1e5799), color-stop(50%,#2989d8), color-stop(51%,#207cca), color-stop(100%,#7db9e8))"
+      expected = "-webkit-gradient(linear, right top, right bottom, color-stop(0%,#1e5799), color-stop(50%,#2989d8), color-stop(51%,#207cca), color-stop(100%,#7db9e8))"
+
+      r2.function_swap(input).should == expected
+    end
+  end
+
   describe "#border_radius_swap" do
     it "should swap a valid quad value" do
       r2.border_radius_swap("1px 2px 3px 4px").should == "2px 1px 4px 3px"
