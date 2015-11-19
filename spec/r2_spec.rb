@@ -144,6 +144,10 @@ describe R2::Swapper do
       r2.minimize("foo\nbar").should == "foo bar"
     end
 
+    it "should convert multiple newlines to a space" do
+      r2.minimize("foo\n\n\nbar").should == "foo bar"
+    end
+
     it "should convert carriage returns to spaces" do
       r2.minimize("foo\rbar").should == "foo bar"
     end
