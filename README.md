@@ -23,6 +23,7 @@ Report bugs in the github project at http://github.com/mzsanford/r2rb
 
 ## Change Log
 
+ * v0.2.6 - Handle multi-row selectors (fix from [@n0nick](https://github.com/n0nick))
  * v0.2.5 - Handle `background:` shorthand
  * v0.2.4 - Handle `url()` properties better
    * [BUG] - Handle `url()` without embedded semi-colons and with trailing parameters
