@@ -110,7 +110,7 @@ module R2
       return '' unless css
 
       css.gsub(/\/\*[\s\S]+?\*\//, '').   # comments
-         gsub(/[\n\r]/, '').              # line breaks and carriage returns
+         gsub(/[\n\r]+/, ' ').            # line breaks and carriage returns
          gsub(/\s*([:;,\{\}])\s*/, '\1'). # space between selectors, declarations, properties and values
          gsub(/\s+/, ' ').                # replace multiple spaces with single spaces
          gsub(/(\A\s+|\s+\z)/, '')        # leading or trailing spaces

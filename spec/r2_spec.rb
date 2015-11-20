@@ -92,6 +92,21 @@ describe R2::Swapper do
 
       flipped_css.should == expected_result
     end
+
+    it "handles newline correctly" do
+      css =
+       "fieldset[disabled]\n" +
+       "input[type=\"checkbox\"], fieldset[disabled]\n" +
+       ".radio {\n" +
+       "  cursor: not-allowed; }"
+
+      expected =
+        'fieldset[disabled] input[type="checkbox"],' +
+        'fieldset[disabled] .radio' +
+        '{cursor:not-allowed;}'
+
+      r2.r2(css).should == expected
+    end
   end
 
   describe "#declaration_swap" do
@@ -125,12 +140,16 @@ describe R2::Swapper do
       r2.minimize("/* comment */foo").should == "foo"
     end
 
-    it "should remove newlines" do
-      r2.minimize("foo\nbar").should == "foobar"
+    it "should convert newlines to spaces" do
+      r2.minimize("foo\nbar").should == "foo bar"
     end
 
-    it "should remove carriage returns" do
-      r2.minimize("foo\rbar").should == "foobar"
+    it "should convert multiple newlines to a space" do
+      r2.minimize("foo\n\n\nbar").should == "foo bar"
+    end
+
+    it "should convert carriage returns to spaces" do
+      r2.minimize("foo\rbar").should == "foo bar"
     end
 
     it "should collapse multiple spaces into one" do
