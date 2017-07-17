@@ -10,6 +10,9 @@ require 'r2/shadow_flipper'
 
 module R2
 
+  # A string that indicates this block should be skipped
+  SKIP_TOKEN = 'SKIP_R2'
+
   # Short cut method for providing a one-time CSS change
   def self.r2(css)
     ::R2::Swapper.new.r2(css)
@@ -77,9 +80,13 @@ module R2
           # it is a selector with "{" or a closing "}", insert as it is. This is
           # things like ".foo {" and its matching "}"
           rule_str = rule
+        elsif rule.match(/#{SKIP_TOKEN}/)
+          # A body that is being skipped
+          rule_str = rule.sub(SKIP_TOKEN, '')
         else
           # It is a declaration body, like "padding-left:4px;margin-left:5px;"
           rule_str = ""
+
           # Split up the individual rules in the body and process each swap. To handle the
           # possible ";" in the url() definitions, like
           # url("data;base64") and url("data:image/svg+xml;charset=...")
@@ -109,11 +116,12 @@ module R2
     def minimize(css)
       return '' unless css
 
-      css.gsub(/\/\*[\s\S]+?\*\//, '').   # comments
-         gsub(/[\n\r]+/, ' ').            # line breaks and carriage returns
-         gsub(/\s*([:;,\{\}])\s*/, '\1'). # space between selectors, declarations, properties and values
-         gsub(/\s+/, ' ').                # replace multiple spaces with single spaces
-         gsub(/(\A\s+|\s+\z)/, '')        # leading or trailing spaces
+      css.gsub(/\/\*\s*no-r2\s*\*\//, SKIP_TOKEN).   # special skip comment
+         gsub(/\/\*[\s\S]+?\*\//, '').               # comments
+         gsub(/[\n\r]+/, ' ').                       # line breaks and carriage returns
+         gsub(/\s*([:;,\{\}])\s*/, '\1').            # space between selectors, declarations, properties and values
+         gsub(/\s+/, ' ').                           # replace multiple spaces with single spaces
+         gsub(/(\A\s+|\s+\z)/, '')                   # leading or trailing spaces
     end
 
     # Given a single CSS declaration rule (e.g. <tt>padding-left: 4px</tt>) return the opposing rule (so, <tt>padding-right:4px;</tt> in this example)
@@ -241,7 +249,7 @@ module R2
       end
 
       # If first point is a unit-value
-      if match = points[0].match(/^(\d+[a-z]{2,3})/)
+      if match = points[0].match(/^(-?\d+[a-z]{2,3})/)
         val = ["right", match[1], points[1] || "center"].compact.join(' ')
       end
 

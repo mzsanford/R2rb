@@ -107,6 +107,19 @@ describe R2::Swapper do
 
       expect(r2.r2(css)).to eq(expected)
     end
+
+    it "handles no-r2 comment" do
+      css = <<-EOS
+      .sprite.foo {
+        /* no-r2 */
+        background-position: 0px -50px;
+      }
+      EOS
+
+      expected = ".sprite.foo{ background-position:0px -50px;}"
+
+      expect(r2.r2(css)).to eq(expected)
+    end
   end
 
   describe "#declaration_swap" do
@@ -274,6 +287,7 @@ describe R2::Swapper do
       it "should convert a unit value" do
         expect(r2.background_position_swap('25px')).to eq('right 25px center')
       end
+
     end
 
     context "with a pair of values" do
