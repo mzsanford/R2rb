@@ -23,6 +23,7 @@ Report bugs in the github project at http://github.com/mzsanford/r2rb
 
 ## Change Log
 
+ * v0.2.7 - Add an option to skip R2 processing on a CSS block (error report from [@mapmeld](https://github.com/mapmeld))
  * v0.2.6 - Handle multi-row selectors (fix from [@n0nick](https://github.com/n0nick))
  * v0.2.5 - Handle `background:` shorthand
  * v0.2.4 - Handle `url()` properties better
