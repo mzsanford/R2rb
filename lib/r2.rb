@@ -13,6 +13,9 @@ module R2
   # A string that indicates this block should be skipped
   SKIP_TOKEN = 'SKIP_R2'
 
+  # Important declarations are removed and then re-added after swapping
+  IMPORTANT_DECLARATION = '!important'
+
   # Short cut method for providing a one-time CSS change
   def self.r2(css)
     ::R2::Swapper.new.r2(css)
@@ -165,14 +168,17 @@ module R2
     # Given a 4-argument CSS declaration value (like that of <tt>padding</tt> or <tt>margin</tt>) return the opposing
     # value. The opposing value swaps the left and right but not the top or bottom. Any unrecognized argument is returned
     # unmolested (for example, 2-argument values)
-    def quad_swap(val)
+    def quad_swap(css_value)
+      points_str, is_important = extract_important(css_value)
       # 1px 2px 3px 4px => 1px 4px 3px 2px
-      points = val.to_s.split(/\s+/)
+      points = points_str.to_s.split(/\s+/)
 
-      if points && points.length == 4
-        [points[0], points[3], points[2], points[1]].join(' ')
-      else
-        val
+      append_important(is_important) do
+        if points && points.length == 4
+          [points[0], points[3], points[2], points[1]].join(' ')
+        else
+          points_str
+        end
       end
     end
 
@@ -212,22 +218,25 @@ module R2
     # Border radius uses top-left, top-right, bottom-left, bottom-right, so all values need to be swapped. Additionally,
     # two and three value border-radius declarations need to be swapped as well. Vertical radius, specified with a /,
     # should be left alone.
-    def border_radius_swap(val)
+    def border_radius_swap(css_value)
       # 1px 2px 3px 4px => 1px 4px 3px 2px
-      points = val.to_s.split(/\s+/)
+      points_str, is_important = extract_important(css_value)
+      points = points_str.to_s.split(/\s+/)
 
-      if points && points.length > 1 && !val.to_s.include?('/')
-        case points.length
-        when 4
-          [points[1], points[0], points[3], points[2]].join(' ')
-        when 3
-          [points[1], points[0], points[1], points[2]].join(' ')
-        when 2
-          [points[1], points[0]].join(' ')
-        else val
+      append_important(is_important) do
+        if points && points.length > 1 && !points_str.to_s.include?('/')
+          case points.length
+          when 4
+            [points[1], points[0], points[3], points[2]].join(' ')
+          when 3
+            [points[1], points[0], points[1], points[2]].join(' ')
+          when 2
+            [points[1], points[0]].join(' ')
+          else points_str
+          end
+        else
+          points_str
         end
-      else
-        val
       end
     end
 
@@ -254,6 +263,16 @@ module R2
       end
 
       val
+    end
+
+    def extract_important(css)
+      is_important = css =~ /#{IMPORTANT_DECLARATION}/
+      return css.sub(/ #{IMPORTANT_DECLARATION}/, ''), is_important
+    end
+
+    def append_important(is_important, &block)
+      css_value = yield
+      css_value + (is_important ? " #{IMPORTANT_DECLARATION}" : '')
     end
   end
 

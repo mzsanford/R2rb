@@ -210,6 +210,11 @@ describe R2::Swapper do
     it "should skip a pair value" do
       expect(r2.quad_swap("1px 2px")).to eq("1px 2px")
     end
+
+    it "should handle !important" do
+      expect(r2.quad_swap("1px 2px 3px 4px !important")).to eq("1px 4px 3px 2px !important")
+      expect(r2.quad_swap("1px 2px !important")).to eq("1px 2px !important")
+    end
   end
 
   describe "#shadow_swap" do
@@ -249,6 +254,9 @@ describe R2::Swapper do
       expect(r2.shadow_swap("inset 1px 2px rgba(0,0,0,0.2), 1px 2px #000")).to eq("-1px 2px rgba(0,0,0,0.2) inset, -1px 2px #000")
     end
 
+    it "should handle !important correctly" do
+      expect(r2.shadow_swap("1px 2px !important")).to eq("-1px 2px !important")
+    end
   end
 
   describe "#border_radius_swap" do
@@ -262,6 +270,11 @@ describe R2::Swapper do
 
     it "should skip a pair value" do
       expect(r2.border_radius_swap("1px 2px")).to eq("2px 1px")
+    end
+
+    it "should corectly handle !important" do
+      expect(r2.border_radius_swap("1px !important")).to eq("1px !important")
+      expect(r2.border_radius_swap("1px 2px !important")).to eq("2px 1px !important")
     end
   end
 
